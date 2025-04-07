@@ -1,1 +1,7 @@
-{"Prompt": "Generate me 30 short Japanese sentences using basic grammar and no complex vocabulary. Then generate me 30 additional sentences using compound sentences and different verb forms such as past, volitional, desire, etc. Limit yourself to NLPT5 words and grammar only. Use the correct Kanji - do not use hiragana if Kanji is more accurate. You can also use these following words:", "fieldIndices":[0]}
+{
+    "language-speech-recognition" : "ja",
+    "Prompt": "Generate me 20 short Japanese sentences using basic grammar and no complex vocabulary. Then generate me 20 additional sentences using compound sentences and different verb forms such as past, volitional, desire, etc. Limit yourself to NLPT5 words and grammar only. And finally generate me a short conversation with the same rules. The conversation must be no longer than 100 words. Include a translation for every sentences and the conversation - but list it separately and after all the Japanese text - and if you can use rich text to make the background-color of the text the same as the color of the text - completely black. Use the correct Kanji - do not use hiragana if Kanji is more accurate. You can also use these following words:",
+    "fieldIndices": [
+        0
+    ]
+}

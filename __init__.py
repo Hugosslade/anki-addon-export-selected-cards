@@ -1,7 +1,9 @@
 from aqt import mw, gui_hooks
 from aqt.browser import Browser
-import os
+import webbrowser
 import re
+import os
+import pathlib
 from PyQt6.QtGui import QAction, QShortcut, QKeySequence
 from PyQt6.QtCore import QStandardPaths, QUrl
 from PyQt6.QtWidgets import QApplication
@@ -58,6 +60,13 @@ def copySelectedCardsToClipboard(browser):
     # Join all the text and copy to clipboard
     clipboard_text = '\n'.join(all_text)
     QApplication.clipboard().setText(clipboard_text)
+
+    # a Path object pointing to the directory where your add-on file is located
+    # pathlib.Path(__file__).parent.resolve()
+    page_path = "file://" + os.path.join(pathlib.Path(__file__).parent.resolve(), "page/index.html")
+    QApplication.clipboard().setText(page_path)
+    webbrowser.open(page_path, 2)
+    # webbrowser.open("https://chat.com", 2)
 
 
 def add_menu_buttons(browser: Browser) -> None:
