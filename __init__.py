@@ -14,6 +14,7 @@ import sys
 
 
 config = mw.addonManager.getConfig(__name__)
+ADDON_ACTION_NAME = "Export Selected"
 
 def sortFieldOrderCids(card_ids):
     return mw.col.db.list(
@@ -64,22 +65,31 @@ def copySelectedCardsToClipboard(browser):
     # a Path object pointing to the directory where your add-on file is located
     # pathlib.Path(__file__).parent.resolve()
     page_path = "file://" + os.path.join(pathlib.Path(__file__).parent.resolve(), "page/index.html")
-    QApplication.clipboard().setText(page_path)
     webbrowser.open(page_path, 2)
-    # webbrowser.open("https://chat.com", 2)
+    webbrowser.open("https://chat.com", 2)
 
 
 def add_menu_buttons(browser: Browser) -> None:
-    export_action = QAction("Export Selected", browser)
+    export_action = QAction(ADDON_ACTION_NAME, browser)
     export_action.triggered.connect(lambda: copySelectedCardsToClipboard(browser))
     browser.form.menuEdit.addAction(export_action)
     browser.addAction(export_action)
 
 
-def on_browser_will_show_context_menu(browser, menu):
-    export_action = QAction("Export Selected", browser)
+def on_browser_will_show_context_menu(browser: Browser, menu: QMenu):
+    export_action = QAction(ADDON_ACTION_NAME, browser)
     export_action.triggered.connect(lambda: copySelectedCardsToClipboard(browser))
+    menu.removeAction(export_action) # Remove the action if it already exists (due to reloading)
     menu.addAction(export_action)
+
+
+def addon_reloader_before():
+    # This function is called before the addon is reloaded
+    # It can be used to undo any changes made by the addon
+    for action in mw.form.menuTools.actions():
+        if action.text() == ADDON_ACTION_NAME:
+            mw.form.menuTools.removeAction(action)
+    # TODO: remove the action from the context menu as well, right now don't know how to access the Browser...
 
 gui_hooks.browser_will_show_context_menu.append(on_browser_will_show_context_menu)
 gui_hooks.browser_menus_did_init.append(add_menu_buttons)
