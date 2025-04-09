@@ -31,26 +31,35 @@
     <button id="import-button">Import</button>
   </section>
   <section id="exercise-area">
-    <ol>
-      <li class="exercise">
-        <div class="text">
-          <button class="tts-button">▶️</button>
-          <span class="text">私は学生です。</span>
-        </div>
-        <div class="answer">
-          <button class="speech-input-button">🎤</button>
-          <input type="text"/>
-        </div>
-        <div class="translated-text">
-          <button class="reveal-answer-button">🔍</button>
-          <span class="text">I am a student.</span>
-        </div>
-      </li>
-    </ol>
+    
   </section>
   <script src="js/vendor/jquery-3.7.1.min.js"></script>
   <script src="js/app.js"></script>
 
 </body>
+
+<script id="template-exercise-subsection" type="text/x-custom-template">
+  <section class="exercise-area-subsection">
+    <h3>{{section-name}}</h3>
+    <ol>
+    </ol>
+  </section>
+</script>
+<script id="template-question" type="text/x-custom-template">
+  <li class="exercise">
+    <div class="untranslated-text">
+      <button class="tts-button">▶️</button>
+      <span class="text">{{untranslated}}</span>
+    </div>
+    <div class="answer">
+      <button class="speech-input-button">🎤</button>
+      <input type="text"/>
+    </div>
+    <div class="translated-text">
+      <button class="reveal-answer-button">🔍</button>
+      <span class="text">{{translated}}</span>
+    </div>
+  </li>
+</script>
 
 </html>
