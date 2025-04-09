@@ -74,4 +74,22 @@ $(document).ready(function() {
 
         }
     }
+    
+
+    
 });
+
+function GetVoices(language){
+    var matchingVoices = [];
+    for(var i = 0; i < window.speechSynthesis.getVoices().length; i++) {
+        var voice = window.speechSynthesis.getVoices()[i];
+        if (voice.lang.startsWith(language)) {
+            matchingVoices.push(voice);
+        }
+    }
+    if(matchingVoices.length == 0){
+        console.error("No matching voices found for language: " + language);
+        return null;
+    }
+    return matchingVoices;
+}
