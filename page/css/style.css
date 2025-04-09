@@ -99,7 +99,20 @@ textarea {
 .exercise button {
   font-size: 20px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #ccccf0; 
+  user-select: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.exercise button:hover {
+  background-color: #ccccf0;
+  border-color: #a1a1d6; 
+}
+
+.translated-text .text {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* ==========================================================================
