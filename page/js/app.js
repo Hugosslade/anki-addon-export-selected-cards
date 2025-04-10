@@ -2,6 +2,8 @@ $(document).ready(function() {
 
     const STORED_DATA_KEY = "input-text-data";
 
+    var untranslatedLanguage = "ja"; // TODO get from page #lang=ABC
+
     var $inputTextArea = $("#input");
     var $inputButton = $("#import-button");
 
@@ -12,7 +14,7 @@ $(document).ready(function() {
     var storedData = localStorage.getItem(STORED_DATA_KEY);
     $inputTextArea.val(localStorage.getItem(STORED_DATA_KEY));
 
-    if(storedData.length > 0){
+    if(storedData != null && storedData != undefined && storedData.length > 0){
         SetupWorksheet(ConvertInputDataToSections(storedData));
     }
 
@@ -62,21 +64,46 @@ $(document).ready(function() {
 
             var $exerciseSubsection = $(templateExerciseSubsection);
             $exerciseSubsection.find("h3").text(section.name);
+            var $exerciseQuestionList = $exerciseSubsection.find("ol");
 
             for (var j = 0; j < section.entries.length; j++) {
                 var entry = section.entries[j];
                 var $question = $(templateQuestion);
                 $question.find(".untranslated-text .text").text(entry.untranslated);
                 $question.find(".translated-text .text").text(entry.translated);
-                $exerciseSubsection.append($question);
+                $question.find(".tts-button").on("click", function() {
+                    var $this = $(this);
+                    var text = $this.parent().find(".text").text();
+                    SpeakText(text, untranslatedLanguage);
+                });
+                $exerciseQuestionList.append($question);
             }
             $exerciseArea.append($exerciseSubsection);
 
         }
     }
     
+    function SpeakText(text, language) {
+        var utterance = new SpeechSynthesisUtterance(text);
+        var voices = GetVoices(language);
+        if(voices == null || voices.length == 0){
+            console.error("No voices found for language: " + language);
+            return;
+        }
+        if(voices.length > 0){
+            utterance.voice = voices[0];
+        }
+        utterance.text = text;
+        utterance.pitch = 1.0;
+        utterance.rate = 1.0;
+        utterance.volume = 1.0;
+        utterance.lang = language;
+        window.speechSynthesis.speak(utterance);
+    }
 
-    
+    window.speechSynthesis.onvoiceschanged = function() {
+        GetVoices(untranslatedLanguage); // preload voices 
+    }
 });
 
 function GetVoices(language){
@@ -87,9 +114,27 @@ function GetVoices(language){
             matchingVoices.push(voice);
         }
     }
-    if(matchingVoices.length == 0){
+    if(matchingVoices.length == 0) {
         console.error("No matching voices found for language: " + language);
         return null;
     }
+
+    if(!window.navigator.onLine) { // remove any non-local voices if the user is not online
+        for(var i = matchingVoices.length - 1; i >= 0; i--){
+            if(!matchingVoices[i].localService){
+                matchingVoices.splice(i, 1);
+            }
+        }
+    }
+
+    function IsVoiceGoodQuality(voice) {
+        return voice.localService == false // online voices in Chrome are good - these are already removed if the user is offline
+            || voice.voiceURI.toLowerCase().includes("enhanced") // mac can report these in webviews (not chrome)
+            || voice.voiceURI.toLowerCase().includes("voice.compact"); // mac can report this in Safari
+    }
+
+    matchingVoices.sort(function(a, b) {
+        return IsVoiceGoodQuality(a) != IsVoiceGoodQuality(b) ? (IsVoiceGoodQuality(a) ? -1 : 1) : 0;
+    });
     return matchingVoices;
 }

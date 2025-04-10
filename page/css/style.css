@@ -84,13 +84,14 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+* {
+  font-family: "Noto Sans", sans-serif;
+}
+
 .text, .exercise input {
   font-family: "Noto Sans JP", sans-serif;
 }
 
-.translated-text {
-  font-family: "Noto Sans", sans-serif;
-}
 
 .exercise span, .exercise input { 
   font-size: 24px;
