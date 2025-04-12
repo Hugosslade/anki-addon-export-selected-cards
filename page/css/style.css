@@ -84,6 +84,15 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.exercise {
+  --exercise-spacing: 8px;
+  --exercise-spacing-2x: calc(var(--exercise-spacing) * 2);
+  --exercise-size: 32px;
+  --primary-text-color: rgb(57, 111, 0);
+  --secondary-text-color: rgb(41, 54, 48);
+  --border-color: rgb(152, 240, 172);
+}
+
 * {
   font-family: "Noto Sans", sans-serif;
 }
@@ -92,9 +101,35 @@ textarea {
   font-family: "Noto Sans JP", sans-serif;
 }
 
+#exercise-area {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.exercise {
+  padding: var(--exercise-spacing) var(--exercise-spacing-2x);
+  border: 2px solid var(--border-color);
+  border-radius: var(--exercise-spacing-2x);
+}
+
+.exercise::marker {
+  color: var(--secondary-text-color);
+}
+
+.exercise > div {
+  display: flex;
+  margin: var(--exercise-spacing) 0;
+  height: var(--exercise-size);
+  gap: var(--exercise-spacing);
+}
 
 .exercise span, .exercise input { 
   font-size: 24px;
+  flex-grow: 1;
+}
+
+.exercise input {
+  border: var(--border-color) 1px solid;
 }
 
 .exercise button {
@@ -104,6 +139,9 @@ textarea {
   user-select: none;
   background-color: #f0f0f0;
   cursor: pointer;
+  width: var(--exercise-size);
+  height: var(--exercise-size);
+  text-decoration: none;
 }
 
 .exercise button:hover {
