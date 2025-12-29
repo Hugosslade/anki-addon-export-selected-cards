@@ -12,7 +12,7 @@
    ========================================================================== */
 
 html {
-  color: #222;
+  color: var(--text-color);
   font-size: 1em;
   line-height: 1.4;
 }
@@ -84,13 +84,80 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+:root {
+    --background-color: #ffffff;
+    --text-color: #222222;
+
+    --exercise-background-color: #dddddd;
+    --exercise-input-background-color: #eee;
+    --primary-text-color: rgb(57, 111, 0);
+    --secondary-text-color: rgb(41, 54, 48);
+    --border-color: rgb(152, 240, 172);
+    --border-color-1: rgb(240, 152, 225);
+    --border-color-2: rgb(240, 152, 225);
+
+    --button-border: #ccccf0;
+    --button-background: #f0f0f0;
+    --button-border-hover: #a1a1d6;
+    --button-background-hover: #ccccf0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #121212;
+    --text-color: #afafaf;
+
+    --exercise-background-color: #232323;
+    --exercise-input-background-color: #333333;
+    --primary-text-color: rgb(57, 111, 0);
+    --secondary-text-color: rgb(151, 200, 177);
+    --border-color: #264f30;
+    --border-color-1: rgb(240, 152, 225);
+    --border-color-2: rgb(240, 152, 225);
+
+    --button-border: #61617c;
+    --button-background: #555;
+    --button-border-hover: #40407e;
+    --button-background-hover: #666;
+  }
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 .exercise {
   --exercise-spacing: 8px;
   --exercise-spacing-2x: calc(var(--exercise-spacing) * 2);
   --exercise-size: 32px;
-  --primary-text-color: rgb(57, 111, 0);
-  --secondary-text-color: rgb(41, 54, 48);
-  --border-color: rgb(152, 240, 172);
+  background-color: var(--exercise-background-color);
+}
+
+.exercise input {
+  background-color: var(--exercise-input-background-color);
+}
+
+.exercise input:focus-visible {
+  outline: 2px solid var(--primary-text-color);
+}
+
+.exercise-area-subsection.conversation ol {
+  list-style-type: none;
+}
+
+
+.exercise-area-subsection.conversation .exercise:nth-child(2n-1) {
+  margin-right: 32px;
+}
+
+.exercise-area-subsection.conversation .exercise:nth-child(2n) {
+  --border-color: var(--border-color-2); 
+  margin-left: 32px;
+
+  input:focus-visible {
+    outline: 2px solid var(--secondary-text-color);
+  }
 }
 
 * {
@@ -108,6 +175,7 @@ textarea {
 
 .exercise {
   padding: var(--exercise-spacing) var(--exercise-spacing-2x);
+  margin-bottom: var(--exercise-spacing) ;
   border: 2px solid var(--border-color);
   border-radius: var(--exercise-spacing-2x);
 }
@@ -135,9 +203,9 @@ textarea {
 .exercise button {
   font-size: 20px;
   border-radius: 8px;
-  border: 1px solid #ccccf0; 
+  border: 1px solid var(--button-border); 
   user-select: none;
-  background-color: #f0f0f0;
+  background-color: var(--button-background);
   cursor: pointer;
   width: var(--exercise-size);
   height: var(--exercise-size);
@@ -145,13 +213,17 @@ textarea {
 }
 
 .exercise button:hover {
-  background-color: #ccccf0;
-  border-color: #a1a1d6; 
+  background-color: var(--button-background-hover);
+  border-color: var(--button-border-hover); 
 }
 
 .translated-text .text {
   visibility: hidden;
   pointer-events: none;
+}
+.translated-text.revealed .text {
+  visibility: visible;
+  pointer-events: default;
 }
 
 /* ==========================================================================
