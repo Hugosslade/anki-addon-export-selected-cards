@@ -29,6 +29,16 @@ $(document).ready(function() {
         SetupWorksheet(sections);
     });
 
+    function CleanTitle(title) {
+        const regex = /([A-Za-z0-9\s]+)/;
+        const match = title.match(regex);
+        if (match) {
+            return match[0].trim();
+        } else {
+            return title;
+        }
+    }
+
     function ConvertInputDataToSections(rawInput) {
         var sections = [];
         var lines = rawInput.split("\n");
@@ -63,7 +73,10 @@ $(document).ready(function() {
             if (section.entries.length == 0) continue;
 
             var $exerciseSubsection = $(templateExerciseSubsection);
-            $exerciseSubsection.find("h3").text(section.name);
+            if(section.name.toLowerCase().includes("conversation")){
+                $exerciseSubsection.addClass("conversation");
+            }
+            $exerciseSubsection.find("h3").text(CleanTitle(section.name));
             var $exerciseQuestionList = $exerciseSubsection.find("ol");
 
             for (var j = 0; j < section.entries.length; j++) {
@@ -75,6 +88,11 @@ $(document).ready(function() {
                     var $this = $(this);
                     var text = $this.parent().find(".text").text();
                     SpeakText(text, untranslatedLanguage);
+                });
+                $question.find(".reveal-answer-button").on("click", function() {
+                    var $this = $(this);
+                    var $text = $this.parent();
+                    $text.addClass("revealed");
                 });
                 $exerciseQuestionList.append($question);
             }
