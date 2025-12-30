@@ -92,7 +92,7 @@ $(document).ready(function() {
                 $question.find(".reveal-answer-button").on("click", function() {
                     var $this = $(this);
                     var $text = $this.parent();
-                    $text.addClass("revealed");
+                    $text.toggleClass("revealed");
                 });
                 $exerciseQuestionList.append($question);
             }

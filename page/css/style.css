@@ -112,8 +112,8 @@ textarea {
     --primary-text-color: rgb(57, 111, 0);
     --secondary-text-color: rgb(151, 200, 177);
     --border-color: #264f30;
-    --border-color-1: rgb(240, 152, 225);
-    --border-color-2: rgb(240, 152, 225);
+    --border-color-1: rgb(132 74 122);
+    --border-color-2: rgb(132 74 122);
 
     --button-border: #61617c;
     --button-background: #555;
@@ -139,7 +139,7 @@ body {
 }
 
 .exercise input:focus-visible {
-  outline: 2px solid var(--primary-text-color);
+  outline: 2px solid var(--button-border);
 }
 
 .exercise-area-subsection.conversation ol {
@@ -154,10 +154,6 @@ body {
 .exercise-area-subsection.conversation .exercise:nth-child(2n) {
   --border-color: var(--border-color-2); 
   margin-left: 32px;
-
-  input:focus-visible {
-    outline: 2px solid var(--secondary-text-color);
-  }
 }
 
 * {
